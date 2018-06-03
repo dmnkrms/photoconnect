@@ -8,6 +8,7 @@ import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { createProfile } from "../../actions/profileActions";
 import options from "../common/options";
+import PhotographerType from "../common/PhotographerType";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class CreateProfile extends Component {
       handle: "",
       location: "",
       occupation: "",
+      speciality: [],
       bio: "",
       webpage: "",
       ig: "",
@@ -28,6 +30,7 @@ class CreateProfile extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSelect = this.onSelect.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +51,8 @@ class CreateProfile extends Component {
       webpage: this.state.webpage,
       ig: this.state.ig,
       facebook: this.state.facebook,
-      linkedin: this.state.linkedin
+      linkedin: this.state.linkedin,
+      speciality: this.state.speciality
     };
 
     this.props.createProfile(profileData, this.props.history);
@@ -56,6 +60,16 @@ class CreateProfile extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onSelect(e) {
+    const speciality = this.state.speciality;
+    if (e.target.checked) {
+      speciality.push(e.target.value);
+    } else {
+      const index = speciality.indexOf(+e.target.value);
+      speciality.splice(index, 1);
+    }
   }
 
   render() {
@@ -130,6 +144,10 @@ class CreateProfile extends Component {
                   error={errors.occupation}
                   info="Your main occupation"
                 />
+
+                {this.state.occupation === "Photographer" ? (
+                  <PhotographerType onChange={this.onSelect} />
+                ) : null}
                 <TextFieldGroup
                   placeholder="* Location"
                   name="location"

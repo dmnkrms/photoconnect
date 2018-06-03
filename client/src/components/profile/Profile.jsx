@@ -11,6 +11,7 @@ import {
   deleteAccount
 } from "../../actions/profileActions";
 import ProfileNotFound from "./ProfileNotFound";
+import ProfileSpeciality from "./ProfileSpeciality";
 
 class Profile extends Component {
   componentDidMount() {
@@ -55,6 +56,7 @@ class Profile extends Component {
           </div>
           <ProfileHeader profile={profile} />
           <ProfileAbout profile={profile} />
+          <ProfileSpeciality profile={profile} />
           {profile.ig ? <ProfileIg username={profile.ig} /> : null}
           {profile.user._id === user.id ? (
             <button

@@ -8,6 +8,7 @@ import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
+import options from "../common/options";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -124,17 +125,6 @@ class CreateProfile extends Component {
         </div>
       );
     }
-    // Select options for occupation
-    const options = [
-      { label: "* Select occupation", value: "" },
-      { label: "Photographer", value: "Photographer" },
-      { label: "Model", value: "Model" },
-      { label: "Retoucher", value: "Retoucher" },
-      { label: "Cinematographer", value: "Cinematographer" },
-      { label: "Make-up artist", value: "Make-up artist" },
-      { label: "Hair stylist", value: "Hair stylist" },
-      { label: "Other", value: "Other" }
-    ];
 
     return (
       <div className="create-profile">
@@ -172,6 +162,7 @@ class CreateProfile extends Component {
                   error={errors.occupation}
                   info="Your main occupation"
                 />
+
                 <TextFieldGroup
                   placeholder="* Location"
                   name="location"

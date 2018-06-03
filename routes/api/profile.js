@@ -101,11 +101,13 @@ router.post(
     if (req.body.location) profileFields.location = req.body.location;
     if (req.body.bio) profileFields.bio = req.body.bio;
     if (req.body.webpage) profileFields.webpage = req.body.webpage;
+    if (req.body.speciality) profileFields.speciality = req.body.speciality;
     // Social
     profileFields.social = {};
     if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
     if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
     if (req.body.ig) profileFields.social.ig = req.body.ig;
+    console.log(req.body.speciality);
 
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {

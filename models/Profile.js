@@ -41,6 +41,7 @@ const ProfileSchema = new Schema({
       type: String
     }
   },
+  speciality: [],
   joined: {
     type: Date,
     default: Date.now
