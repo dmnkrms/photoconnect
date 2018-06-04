@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
-import ProfileIg from "./ProfileIg";
 import Spinner from "../common/Spinner";
 import {
   getProfileByHandle,
@@ -12,6 +11,7 @@ import {
 } from "../../actions/profileActions";
 import ProfileNotFound from "./ProfileNotFound";
 import ProfileSpeciality from "./ProfileSpeciality";
+import ProfileModel from "./ProfileModel";
 
 class Profile extends Component {
   componentDidMount() {
@@ -56,8 +56,12 @@ class Profile extends Component {
           </div>
           <ProfileHeader profile={profile} />
           <ProfileAbout profile={profile} />
-          <ProfileSpeciality profile={profile} />
-          {profile.ig ? <ProfileIg username={profile.ig} /> : null}
+          {profile.occupation === "Photographer" ? (
+            <ProfileSpeciality profile={profile} />
+          ) : null}
+          {profile.occupation === "Model" ? (
+            <ProfileModel profile={profile} />
+          ) : null}
           {profile.user._id === user.id ? (
             <button
               onClick={this.onDeleteClick.bind(this)}

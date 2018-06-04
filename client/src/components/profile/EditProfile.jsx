@@ -5,10 +5,9 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
-import SelectListGroup from "../common/SelectListGroup";
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
-import options from "../common/options";
+import ModelDetailsEdit from "../common/ModelDetailsEdit";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -19,6 +18,9 @@ class CreateProfile extends Component {
       handle: "",
       location: "",
       occupation: "",
+      gender: "",
+      height: "",
+      agency: "",
       bio: "",
       webpage: "",
       ig: "",
@@ -44,6 +46,8 @@ class CreateProfile extends Component {
       const profile = nextProps.profile.profile;
       // If profile does not exist -> make an empty string
       profile.webpage = !isEmpty(profile.webpage) ? profile.webpage : "";
+      profile.height = !isEmpty(profile.height) ? profile.height : "";
+      profile.agency = !isEmpty(profile.agency) ? profile.agency : "";
       profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
       profile.social = !isEmpty(profile.social) ? profile.social : {};
       profile.ig = !isEmpty(profile.social.ig) ? profile.social.ig : "";
@@ -59,6 +63,9 @@ class CreateProfile extends Component {
         handle: profile.handle,
         location: profile.location,
         occupation: profile.occupation,
+        height: profile.height,
+        gender: profile.gender,
+        agency: profile.agency,
         bio: profile.bio,
         webpage: profile.webpage,
         ig: profile.ig,
@@ -80,7 +87,10 @@ class CreateProfile extends Component {
       webpage: this.state.webpage,
       ig: this.state.ig,
       facebook: this.state.facebook,
-      linkedin: this.state.linkedin
+      linkedin: this.state.linkedin,
+      gender: this.state.gender,
+      height: this.state.height,
+      agency: this.state.agency
     };
 
     this.props.createProfile(profileData, this.props.history);
@@ -153,16 +163,6 @@ class CreateProfile extends Component {
                   error={errors.handle}
                   info="Unique profile handle"
                 />
-                <SelectListGroup
-                  placeholder="* Occupation"
-                  name="occupation"
-                  value={this.state.occupation}
-                  onChange={this.onChange}
-                  options={options}
-                  error={errors.occupation}
-                  info="Your main occupation"
-                />
-
                 <TextFieldGroup
                   placeholder="* Location"
                   name="location"
@@ -171,6 +171,14 @@ class CreateProfile extends Component {
                   error={errors.location}
                   info="City you are based in"
                 />
+                {this.state.occupation === "Model" ? (
+                  <ModelDetailsEdit
+                    height={this.state.height}
+                    onChange={this.onChange}
+                    agency={this.state.agency}
+                    gender={this.state.gender}
+                  />
+                ) : null}
                 <TextFieldGroup
                   placeholder="Webpage"
                   name="webpage"

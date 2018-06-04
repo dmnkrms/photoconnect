@@ -9,6 +9,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import { createProfile } from "../../actions/profileActions";
 import options from "../common/options";
 import PhotographerType from "../common/PhotographerType";
+import ModelDetails from "../common/ModelDetails";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -20,17 +21,22 @@ class CreateProfile extends Component {
       location: "",
       occupation: "",
       speciality: [],
+      gender: "",
+      height: "",
+      agency: "",
       bio: "",
       webpage: "",
       ig: "",
       facebook: "",
       linkedin: "",
+      disabled: true,
       errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSelect = this.onSelect.bind(this);
+    this.onDisabled = this.onDisabled.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,7 +58,10 @@ class CreateProfile extends Component {
       ig: this.state.ig,
       facebook: this.state.facebook,
       linkedin: this.state.linkedin,
-      speciality: this.state.speciality
+      speciality: this.state.speciality,
+      gender: this.state.gender,
+      height: this.state.height,
+      agency: this.state.agency
     };
 
     this.props.createProfile(profileData, this.props.history);
@@ -70,6 +79,10 @@ class CreateProfile extends Component {
       const index = speciality.indexOf(+e.target.value);
       speciality.splice(index, 1);
     }
+  }
+
+  onDisabled(e) {
+    this.setState({ disabled: !this.state.disabled });
   }
 
   render() {
@@ -148,6 +161,13 @@ class CreateProfile extends Component {
                 {this.state.occupation === "Photographer" ? (
                   <PhotographerType onChange={this.onSelect} />
                 ) : null}
+                {this.state.occupation === "Model" ? (
+                  <ModelDetails
+                    height={this.state.height}
+                    onChange={this.onChange}
+                    agency={this.state.agency}
+                  />
+                ) : null}
                 <TextFieldGroup
                   placeholder="* Location"
                   name="location"
@@ -187,9 +207,16 @@ class CreateProfile extends Component {
                   <span className="text-muted"> Optional</span>
                 </div>
                 {socialInputs}
+                <br />
+                <label className="checkbox text-muted ml-2">
+                  <input type="checkbox" onChange={this.onDisabled} /> Check if
+                  you agree to display your personal data on your public profile
+                  for discovery purposes
+                </label>
                 <input
+                  disabled={this.state.disabled}
                   type="submit"
-                  value=" Submit"
+                  value="Submit"
                   className="btn btn-info btn-block mt-4"
                 />
               </form>

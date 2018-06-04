@@ -102,12 +102,14 @@ router.post(
     if (req.body.bio) profileFields.bio = req.body.bio;
     if (req.body.webpage) profileFields.webpage = req.body.webpage;
     if (req.body.speciality) profileFields.speciality = req.body.speciality;
+    if (req.body.gender) profileFields.gender = req.body.gender;
+    if (req.body.height) profileFields.height = req.body.height;
+    if (req.body.agency) profileFields.agency = req.body.agency;
     // Social
     profileFields.social = {};
     if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
     if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
     if (req.body.ig) profileFields.social.ig = req.body.ig;
-    console.log(req.body.speciality);
 
     Profile.findOne({ user: req.user.id }).then(profile => {
       if (!profile) {

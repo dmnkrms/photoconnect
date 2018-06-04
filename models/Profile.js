@@ -42,6 +42,15 @@ const ProfileSchema = new Schema({
     }
   },
   speciality: [],
+  gender: {
+    type: String
+  },
+  height: {
+    type: Number
+  },
+  agency: {
+    type: String
+  },
   joined: {
     type: Date,
     default: Date.now
