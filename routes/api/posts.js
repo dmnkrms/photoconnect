@@ -49,7 +49,9 @@ router.post(
 
     const newPost = new Post({
       user: req.user.id,
-      avatar: req.body.avatar,
+      authorAvatar: req.user.avatar,
+      authorName: req.body.authorName,
+      authorHandle: req.body.authorHandle,
       name: req.body.name,
       location: req.body.location,
       lookingFor: req.body.lookingFor,
@@ -57,6 +59,33 @@ router.post(
     });
 
     newPost.save().then(post => res.json(post));
+  }
+);
+
+// @route   POST api/posts
+// @desc    Edit a post
+// @access  Private
+router.post(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validatePostInput(req.body);
+    // Check Validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    const postFields = {};
+    if (req.body.name) postFields.name = req.body.name;
+    if (req.body.location) postFields.location = req.body.location;
+    if (req.body.lookingFor) postFields.lookingFor = req.body.lookingFor;
+    if (req.body.description) postFields.description = req.body.description;
+
+    Post.findOneAndUpdate(
+      { _id: req.body.id },
+      { $set: postFields },
+      { new: true }
+    ).then(post => res.json(post));
   }
 );
 

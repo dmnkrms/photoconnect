@@ -20,13 +20,30 @@ class PostItem extends Component {
               <i className="text-secondary fas fa-map-marker" /> {post.location}
             </p>
             <br />
-            <h5>Looking for: {post.lookingFor}</h5>
+            <h5>
+              Looking for:{" "}
+              {post.lookingFor === "Photographer" ? (
+                <span>
+                  {post.lookingFor} <i className="fas fa-camera" />
+                </span>
+              ) : null}
+              {post.lookingFor === "Model" ? (
+                <span>
+                  {post.lookingFor} <i className="fas fa-user" />
+                </span>
+              ) : null}
+              {post.lookingFor === "Other" ? (
+                <span>
+                  {post.lookingFor} <i className="fas fa-question-circle" />
+                </span>
+              ) : null}
+            </h5>
             <p>
               Posted on: <Moment format="MM-DD">{post.date}</Moment>
             </p>
 
             <p className="text-center">
-              <i className="fas fa-male" /> {post.candidates.length} Candidates
+              <i className="fas fa-users" /> {post.candidates.length} Candidates
             </p>
           </div>
 

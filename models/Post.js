@@ -13,7 +13,13 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users"
   },
-  avatar: {
+  authorAvatar: {
+    type: String
+  },
+  authorName: {
+    type: String
+  },
+  authorHandle: {
     type: String
   },
   name: {

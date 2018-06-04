@@ -53,13 +53,30 @@ class Post extends Component {
               <div className="card-body">
                 <div className="row">
                   <div className="col">
+                    <div className="row">
+                      <div className="col-1 mt-2">
+                        <Link to={`/profile/${post.authorHandle}`}>
+                          <img
+                            className="rounded-circle "
+                            src={post.authorAvatar}
+                            alt={post.authorName}
+                            style={{ width: "30px" }}
+                          />
+                        </Link>
+                      </div>
+                      <div className="col">
+                        <p className="text-muted">
+                          Created by {post.authorName}
+                          <p>
+                            on: <Moment format="YYYY-MM-DD">{post.date}</Moment>
+                          </p>
+                        </p>
+                      </div>
+                    </div>
+                    <br />
+
                     <h5 className="text-muted">Looking for:</h5>
                     <p className="h2 text-info">{post.lookingFor}</p>
-                    <br />
-                    <p className="h5 text-muted">
-                      Posted on:{" "}
-                      <Moment format="YYYY-MM-DD">{post.date}</Moment>
-                    </p>
                     <br />
                     <p className="h5 text-muted">
                       Active till:{" "}
@@ -78,7 +95,7 @@ class Post extends Component {
                       {post.candidates.length > 0 ? (
                         <span>
                           <h5 className="text-center text-info">
-                            <i className="fas fa-male" />{" "}
+                            <i className="fas fa-users" />{" "}
                             {post.candidates.length} Candidates:
                           </h5>
                           <div className="row text-center">
@@ -111,6 +128,12 @@ class Post extends Component {
           </div>
           {isOwner ? (
             <div className="text-center">
+              <Link
+                to={"/edit-post/" + post._id}
+                className="btn btn-info  mb-3 mr-5"
+              >
+                Edit post <i className="fas fa-edit ml-2" />
+              </Link>
               <button
                 onClick={this.onDeleteClick.bind(this, post._id, currentUser)}
                 className="btn btn-danger mb-3"

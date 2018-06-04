@@ -2,6 +2,7 @@ import axios from "axios";
 
 import {
   ADD_POST,
+  EDIT_POST,
   GET_ERRORS,
   CLEAR_ERRORS,
   GET_POSTS,
@@ -68,6 +69,24 @@ export const getPost = id => dispatch => {
     );
 };
 
+// Edit Post
+export const editPost = (postData, callback) => dispatch => {
+  axios
+    .post(`/api/posts/${postData.id}`, postData)
+    .then(res => {
+      dispatch({
+        type: EDIT_POST,
+        payload: res.data
+      });
+      callback();
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
 // Delete Post
 export const deletePost = (id, callback) => dispatch => {
   axios

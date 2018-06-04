@@ -20,6 +20,7 @@ import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import Post from "./components/post/Post";
 import PostCreate from "./components/post/PostCreate";
+import PostEdit from "./components/post/PostEdit";
 import NotFound from "./components/not-found/NotFound";
 import "./App.css";
 
@@ -77,6 +78,13 @@ class App extends Component {
                   exact
                   path="/create-post"
                   component={PostCreate}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-post/:id"
+                  component={PostEdit}
                 />
               </Switch>
               <Switch>

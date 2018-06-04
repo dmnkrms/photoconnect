@@ -4,13 +4,15 @@ import { connect } from "react-redux";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import { addPost } from "../../actions/postActions";
+import { getPost, editPost } from "../../actions/postActions";
+import isEmpty from "../../validation/is-empty";
 import options from "../common/options";
 
-class PostForm extends Component {
+class PostEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       location: "",
       lookingFor: "",
@@ -22,30 +24,43 @@ class PostForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.errors) {
-      this.setState({ errors: newProps.errors });
+  componentDidMount() {
+    this.props.getPost(this.props.match.params.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.post) {
+      const post = nextProps.post;
+      // If post does not exist -> make an empty string
+      post.description = !isEmpty(post.description) ? post.description : "";
+
+      this.setState({
+        id: post._id,
+        name: post.name,
+        location: post.location,
+        lookingFor: post.lookingFor,
+        description: post.description
+      });
     }
   }
 
   onSubmit(e) {
     e.preventDefault();
 
-    const { user } = this.props.auth;
-    const { currentUserProfile } = this.props.profile;
-
     const newPost = {
-      user: user.id,
-      authorName: currentUserProfile.name,
-      authorHandle: currentUserProfile.handle,
+      id: this.state.id,
       name: this.state.name,
       location: this.state.location,
       lookingFor: this.state.lookingFor,
       description: this.state.description
     };
 
-    this.props.addPost(newPost, () => {
-      this.props.history.push("/");
+    this.props.editPost(newPost, () => {
+      this.props.history.push("/post/" + this.props.post._id);
     });
   }
 
@@ -61,7 +76,7 @@ class PostForm extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create new post</h1>
+              <h1 className="display-4 text-center">Edit post</h1>
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -99,7 +114,7 @@ class PostForm extends Component {
                 />
                 <input
                   type="submit"
-                  value="Post"
+                  value="Save"
                   className="btn btn-info btn-block mt-4"
                 />
               </form>
@@ -111,17 +126,16 @@ class PostForm extends Component {
   }
 }
 
-PostForm.propTypes = {
-  addPost: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
+PostEdit.propTypes = {
+  post: PropTypes.object.isRequired,
+  getPost: PropTypes.func.isRequired,
+  editPost: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  profile: state.profile,
+  post: state.post.post,
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { addPost })(PostForm);
+export default connect(mapStateToProps, { getPost, editPost })(PostEdit);
