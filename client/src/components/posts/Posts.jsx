@@ -8,7 +8,6 @@ import { getCurrentProfile } from "../../actions/profileActions";
 import { getPosts } from "../../actions/postActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import options from "../common/options";
 
 class Posts extends Component {
   constructor(props) {
@@ -41,6 +40,12 @@ class Posts extends Component {
     const { currentUserProfile } = this.props.profile;
     const { posts, loading } = this.props.post;
     const { name, location, lookingFor, isMine } = this.state;
+
+    const options = [
+      { label: "Please choose one...", value: "" },
+      { label: "Photographer", value: "Photographer" },
+      { label: "Model", value: "Model" }
+    ];
 
     const noProfile = (
       <div>
@@ -84,6 +89,14 @@ class Posts extends Component {
                   </div>
                   <div className="row">
                     <div className="col-sm">
+                      <SelectListGroup
+                        name="lookingFor"
+                        value={lookingFor}
+                        onChange={this.setFilter}
+                        options={options}
+                      />
+                    </div>
+                    <div className="col-sm">
                       <TextFieldGroup
                         placeholder="Post name"
                         name="name"
@@ -97,14 +110,6 @@ class Posts extends Component {
                         name="location"
                         value={location}
                         onChange={this.setFilter}
-                      />
-                    </div>
-                    <div className="col-sm">
-                      <SelectListGroup
-                        name="lookingFor"
-                        value={lookingFor}
-                        onChange={this.setFilter}
-                        options={options}
                       />
                     </div>
                   </div>

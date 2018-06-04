@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class ProfileItem extends Component {
   render() {
     const { profile } = this.props;
+    const { isAuthenticated } = this.props.auth;
 
     return (
       <div className="col-xl-4 col-md-6 col-sm-12">
@@ -17,12 +19,14 @@ class ProfileItem extends Component {
                 className="rounded-circle"
               />
               <div className="mt-2 text-center">
-                <Link
-                  to={`/profile/${profile.handle}`}
-                  className="btn-sm btn-info"
-                >
-                  View Profile
-                </Link>
+                {isAuthenticated ? (
+                  <Link
+                    to={`/profile/${profile.handle}`}
+                    className="btn-sm btn-info"
+                  >
+                    View Profile
+                  </Link>
+                ) : null}
               </div>
             </div>
             <div className="col">
@@ -41,7 +45,12 @@ class ProfileItem extends Component {
 }
 
 ProfileItem.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default ProfileItem;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(ProfileItem);

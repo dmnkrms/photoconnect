@@ -24,10 +24,15 @@ class Post extends Component {
   render() {
     const { user } = this.props.auth;
     const { post, loading } = this.props.post;
+    let applyDisable = true;
 
     let currentUser = {};
     if (this.props.profile.currentUserProfile !== null) {
       currentUser = this.props.profile.currentUserProfile;
+    }
+
+    if (currentUser.occupation === post.lookingFor) {
+      applyDisable = false;
     }
 
     let postContent;
@@ -66,10 +71,8 @@ class Post extends Component {
                       </div>
                       <div className="col">
                         <p className="text-muted">
-                          Created by {post.authorName}
-                          <p>
-                            on: <Moment format="YYYY-MM-DD">{post.date}</Moment>
-                          </p>
+                          Created by {post.authorName} <br />
+                          on: <Moment format="YYYY-MM-DD">{post.date}</Moment>
                         </p>
                       </div>
                     </div>
@@ -146,6 +149,7 @@ class Post extends Component {
               <button
                 onClick={this.onApplyClick.bind(this, post._id, currentUser)}
                 className="btn btn-success mb-3"
+                disabled={applyDisable}
               >
                 Apply <i className="fas fa-check" />
               </button>

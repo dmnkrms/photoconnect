@@ -6,7 +6,6 @@ import ProfileFeed from "./ProfilesFeed";
 import { getProfiles } from "../../actions/profileActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import options from "../common/options";
 
 class Profiles extends Component {
   constructor(props) {
@@ -32,6 +31,12 @@ class Profiles extends Component {
     const { profiles, loading } = this.props.profile;
     const { name, location, occupation } = this.state;
     let profileItems;
+
+    const options = [
+      { label: "Please choose one...", value: "" },
+      { label: "Photographer", value: "Photographer" },
+      { label: "Model", value: "Model" }
+    ];
 
     // Show spinner
     if (loading) {
@@ -82,6 +87,14 @@ class Profiles extends Component {
                   </div>
                   <div className="row">
                     <div className="col-sm">
+                      <SelectListGroup
+                        name="occupation"
+                        value={occupation}
+                        onChange={this.setFilter}
+                        options={options}
+                      />
+                    </div>
+                    <div className="col-sm">
                       <TextFieldGroup
                         placeholder="Name"
                         name="name"
@@ -95,14 +108,6 @@ class Profiles extends Component {
                         name="location"
                         value={location}
                         onChange={this.setFilter}
-                      />
-                    </div>
-                    <div className="col-sm">
-                      <SelectListGroup
-                        name="occupation"
-                        value={occupation}
-                        onChange={this.setFilter}
-                        options={options}
                       />
                     </div>
                   </div>
